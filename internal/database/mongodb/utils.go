@@ -8,17 +8,16 @@ import (
 )
 
 func (m *MongoDB) CreateEnvoiceRecord(envObj models.TransactionData) {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	defer m.Mdb.Disconnect(ctx)
+	// defer m.Mdb.Disconnect(ctx)
 
 	database := m.Mdb.Database(databaseName)
 	envoiceColl := database.Collection(envCollection)
 
-	result, err := envoiceColl.InsertOne(ctx, envObj)
+	_, err := envoiceColl.InsertOne(ctx, envObj)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("id ", result.InsertedID)
 }

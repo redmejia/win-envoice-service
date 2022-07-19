@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"win/envoice/internal/models"
+
+	"github.com/google/uuid"
 )
 
 func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,6 +18,8 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 		a.ErrorLog.Fatal(err)
 	}
 
+	envUUID := uuid.NewString()
+	txEnvodata.EnvoiceUUID = envUUID
 	a.M.CreateEnvoiceRecord(txEnvodata)
 
 	fmt.Println("data recived ", txEnvodata)

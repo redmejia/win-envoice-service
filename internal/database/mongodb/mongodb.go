@@ -27,7 +27,7 @@ func Connection() (*mongo.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 
 	defer cancel()
 
