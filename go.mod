@@ -2,10 +2,7 @@ module win/envoice
 
 go 1.18
 
-require (
-	github.com/google/uuid v1.3.0
-	go.mongodb.org/mongo-driver v1.10.0
-)
+require go.mongodb.org/mongo-driver v1.10.0
 
 require (
 	github.com/golang/snappy v0.0.1 // indirect

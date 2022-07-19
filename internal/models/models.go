@@ -1,44 +1,49 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 // ProductSpecification
 type ProductSpecification struct {
-	ProductName  string `json:"product_name"`
-	ProductPrice int    `json:"product_price"`
+	ProductName  string `bson:"product_name" json:"product_name"`
+	ProductPrice int    `bson:"product_price" json:"product_price"`
 }
 
 // BillingInfo
 type BillingInfo struct {
-	FullName string `json:"full_name"`
-	Address  string `json:"address"`
-	City     string `json:"city"`
-	State    string `json:"state"`
-	Zip      string `json:"zip"`
+	FullName string `bson:"full_name" json:"full_name"`
+	Address  string `bson:"address" json:"address"`
+	City     string `bson:"city" json:"city"`
+	State    string `bson:"state" json:"state"`
+	Zip      string `bson:"zip" json:"zip"`
 }
 
 // Transaction
 type Transaction struct {
-	Product      ProductSpecification `json:"product"` // Business product specification
-	TxAmount     int                  `json:"tx_amount"`
-	TxDate       time.Time            `json:"tx_date"`
-	TxCardNumber string               `json:"tx_card_number"`
-	TxCardCv     string               `json:"tx_card_cv"`
-	BillingInfo  BillingInfo          `json:"billing_info"`
+	Product      ProductSpecification `bson:"product" json:"product"` // Business product specification
+	TxAmount     int                  `bson:"tx_amount" json:"tx_amount"`
+	TxDate       time.Time            `bson:"tx_date" json:"tx_date"`
+	TxCardNumber string               `bson:"tx_card_number" json:"tx_card_number"`
+	TxCardCv     string               `bson:"tx_card_cv" json:"tx_card_cv"`
+	BillingInfo  BillingInfo          `bson:"billing_info" json:"billing_info"`
 }
 
 // TransactionStatus
 type TransactionStatus struct {
-	Proceed        bool   `json:"proceed"`
-	TxAmountIntent int    `json:"tx_amount_intent"`
-	TxStatusCode   int    `json:"tx_status_code"`
-	TxMessage      string `json:"tx_message"`
+	Proceed        bool   `bson:"proceed" json:"proceed"`
+	TxAmountIntent int    `bson:"tx_amount_intent" "json:"tx_amount_intent"`
+	TxStatusCode   int    `bson:"tx_status_code" json:"tx_status_code"`
+	TxMessage      string `bson:"tx_message" json:"tx_message"`
 }
 
 // TransactioData
 type TransactionData struct {
-	TxAccepted   bool        `json:"tx_accepted"`
-	MessageState string      `json:"message_state"`
-	Date         time.Time   `json:"date"`
-	Transaction  Transaction `json:"transaction"`
+	ID           primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	TxAccepted   bool               `bson:"tx_accepted" json:"tx_accepted"`
+	MessageState string             `bson:"message_state"json:"message_state"`
+	Date         time.Time          `bson:"date" json:"date"`
+	Transaction  Transaction        `bson:"transaction" json:"transaction"`
 }

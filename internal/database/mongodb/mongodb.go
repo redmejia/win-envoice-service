@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	databaseName string = "win"
-	collection          = "envoice"
+	databaseName  string = "win"
+	envCollection        = "envoice" // envoice collection
 )
 
 // MongoDB

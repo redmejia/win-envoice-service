@@ -2,11 +2,10 @@ package api
 
 import (
 	"log"
-
-	"go.mongodb.org/mongo-driver/mongo"
+	"win/envoice/internal/database/mongodb"
 )
 
 type ApiConfig struct {
-	Mdb               *mongo.Client
+	M                 mongodb.MongoDB
 	InfoLog, ErrorLog *log.Logger
 }

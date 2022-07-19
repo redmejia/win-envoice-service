@@ -16,5 +16,7 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 		a.ErrorLog.Fatal(err)
 	}
 
+	a.M.CreateEnvoiceRecord(txEnvodata)
+
 	fmt.Println("data recived ", txEnvodata)
 }
