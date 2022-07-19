@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"win/envoice/internal/models"
 	"win/envoice/utils"
@@ -11,22 +10,36 @@ import (
 )
 
 func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
-	var txEnvodata models.TransactionData
+	var transaction models.TransactionData
 
 	dec := json.NewDecoder(r.Body)
-	err := dec.Decode(&txEnvodata)
+	err := dec.Decode(&transaction)
 	if err != nil {
 		a.ErrorLog.Fatal(err)
 	}
 
 	envUUID := uuid.NewString()
-	txEnvodata.EnvoiceUUID = envUUID
+	transaction.EnvoiceUUID = envUUID
 
-	last4 := utils.Last4(&txEnvodata.Transaction.TxCardNumber)
+	last4 := utils.Last4(&transaction.Transaction.TxCardNumber)
 
-	txEnvodata.Transaction.TxCardNumber = last4
+	transaction.Transaction.TxCardNumber = last4
 
-	a.M.CreateEnvoiceRecord(txEnvodata)
+	a.M.CreateEnvoiceRecord(transaction)
 
-	fmt.Println("data recived ", txEnvodata)
+	// sent back the envUUID this will be save on the database of bussiness logic
+	// retrive when GET reques is made to win envoice/id
+
+	envoice := models.EnvoiceInfo{Recived: true, RecordCreated: true, EnvoUUID: envUUID}
+
+	a.InfoLog.Println(envoice)
+
+	envByte, err := json.Marshal(envoice)
+	if err != nil {
+		a.ErrorLog.Fatal(err)
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(envByte)
+
 }
