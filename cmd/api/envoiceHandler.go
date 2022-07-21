@@ -21,9 +21,8 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 	envUUID := uuid.NewString()
 	transaction.EnvoiceUUID = envUUID
 
-	last4 := utils.Last4(&transaction.Transaction.TxCardNumber)
-
-	transaction.Transaction.TxCardNumber = last4
+	utils.ReplChars(&transaction.Transaction.TxCardNumber, `\d{12}`, "****-****-****-")
+	utils.ReplChars(&transaction.Transaction.TxCardCv, `\d{3}`, "***")
 
 	a.M.CreateEnvoiceRecord(transaction)
 
@@ -34,18 +33,16 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 
 	a.InfoLog.Println(envoice)
 
-	envByte, err := json.Marshal(envoice)
+	err = utils.WriteJSON(w, http.StatusCreated, &envoice)
+
 	if err != nil {
 		a.ErrorLog.Fatal(err)
 	}
-	w.WriteHeader(http.StatusCreated)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(envByte)
 
 }
 
 func (a *ApiConfig) GetEnvoiceHandler(w http.ResponseWriter, r *http.Request) {
-
+	// http: //localhost:8089/api/env/num?envo-uuid=1233sdh-313030-12312-313
 	envUUID := r.URL.Query().Get("envo-uuid")
 
 	a.M.GetEnvoiceByUUID(w, envUUID)

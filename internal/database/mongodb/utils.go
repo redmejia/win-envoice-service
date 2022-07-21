@@ -2,11 +2,10 @@ package mongodb
 
 import (
 	"context"
-	"encoding/json"
-	"log"
 	"net/http"
 	"time"
 	"win/envoice/internal/models"
+	"win/envoice/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -16,12 +15,12 @@ func (m *MongoDB) CreateEnvoiceRecord(envObj models.TransactionData) {
 	defer cancel()
 	// defer m.Mdb.Disconnect(ctx)
 
-	database := m.Mdb.Database(databaseName)
-	envoiceColl := database.Collection(envCollection)
+	envoiceColl := m.Mdb.Database(databaseName).Collection(envCollection)
 
 	_, err := envoiceColl.InsertOne(ctx, envObj)
 	if err != nil {
-		log.Fatal(err)
+		m.ErrorLog.Fatal(err)
+		return
 	}
 
 }
@@ -40,14 +39,9 @@ func (m *MongoDB) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string) {
 		m.ErrorLog.Fatal(err)
 		return
 	}
-	resutl.DecodeBytes()
 
-	b, err := json.Marshal(&env)
+	err = utils.WriteJSON(w, http.StatusOK, &env)
 	if err != nil {
 		m.ErrorLog.Fatal(err)
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(b)
-
 }

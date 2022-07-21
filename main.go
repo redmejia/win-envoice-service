@@ -19,7 +19,7 @@ func main() {
 	errLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime)
 
 	api := api.ApiConfig{
-		M:        mongodb.MongoDB{Mdb: client},
+		M:        mongodb.MongoDB{Mdb: client, InfoLog: infoLog, ErrorLog: errLog},
 		InfoLog:  infoLog,
 		ErrorLog: errLog,
 	}

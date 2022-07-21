@@ -10,7 +10,7 @@ func Router(a *api.ApiConfig) http.Handler {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/api/env", a.EnvoiceHandler)
-	mux.HandleFunc("/api/envo", a.GetEnvoiceHandler)
+	mux.HandleFunc("/api/env/num", a.GetEnvoiceHandler)
 
 	return mux
 
