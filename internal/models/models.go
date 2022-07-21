@@ -44,7 +44,7 @@ type TransactionData struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	EnvoiceUUID  string             `bson:"envoice_uuid" json:"envoice_uuid"`
 	TxAccepted   bool               `bson:"tx_accepted" json:"tx_accepted"`
-	MessageState string             `bson:"message_state"json:"message_state"`
+	MessageState string             `bson:"message_state" json:"message_state"`
 	Date         time.Time          `bson:"date" json:"date"`
 	Transaction  Transaction        `bson:"transaction" json:"transaction"`
 }

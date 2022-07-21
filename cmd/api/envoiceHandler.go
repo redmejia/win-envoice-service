@@ -28,7 +28,7 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 	a.M.CreateEnvoiceRecord(transaction)
 
 	// sent back the envUUID this will be save on the database of bussiness logic
-	// retrive when GET reques is made to win envoice/id
+	// retrive when GET request is made to win envoice/id
 
 	envoice := models.EnvoiceInfo{Recived: true, RecordCreated: true, EnvoUUID: envUUID}
 
@@ -42,4 +42,11 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(envByte)
 
+}
+
+func (a *ApiConfig) GetEnvoiceHandler(w http.ResponseWriter, r *http.Request) {
+
+	envUUID := r.URL.Query().Get("envo-uuid")
+
+	a.M.GetEnvoiceByUUID(w, envUUID)
 }

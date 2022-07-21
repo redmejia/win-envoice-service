@@ -3,6 +3,7 @@ package mongodb
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,7 +23,7 @@ type MongoDB struct {
 
 func Connection() (*mongo.Client, error) {
 
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("URI")))
 
 	if err != nil {
 		return nil, err
