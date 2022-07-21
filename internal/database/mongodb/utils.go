@@ -33,8 +33,8 @@ func (m *MongoDB) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string) {
 
 	var env bson.M
 
-	resutl := envoiceColl.FindOne(ctx, bson.M{"envoice_uuid": envoiceUUID}, nil)
-	err := resutl.Decode(&env)
+	singleResult := envoiceColl.FindOne(ctx, bson.M{"envoice_uuid": envoiceUUID}, nil)
+	err := singleResult.Decode(&env)
 	if err != nil {
 		m.ErrorLog.Fatal(err)
 		return
@@ -43,5 +43,6 @@ func (m *MongoDB) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string) {
 	err = utils.WriteJSON(w, http.StatusOK, &env)
 	if err != nil {
 		m.ErrorLog.Fatal(err)
+		return
 	}
 }
