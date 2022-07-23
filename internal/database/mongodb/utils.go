@@ -2,12 +2,14 @@ package mongodb
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 	"win/envoice/internal/models"
 	"win/envoice/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func (m *MongoDB) CreateEnvoiceRecord(envObj models.TransactionData) {
@@ -36,7 +38,20 @@ func (m *MongoDB) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string) {
 	singleResult := envoiceColl.FindOne(ctx, bson.M{"envoice_uuid": envoiceUUID}, nil)
 	err := singleResult.Decode(&env)
 	if err != nil {
-		m.ErrorLog.Fatal(err)
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			var badUUID = struct {
+				IsError bool   `json:"is_error"`
+				ErrMsg  string `json:"err_msg"`
+			}{
+				IsError: true,
+				ErrMsg:  "envoice uuid was not found",
+			}
+
+			err = utils.WriteJSON(w, http.StatusNotFound, badUUID)
+			if err != nil {
+				m.ErrorLog.Fatal(err)
+			}
+		}
 		return
 	}
 
