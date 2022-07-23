@@ -31,7 +31,7 @@ func (a *ApiConfig) EnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 
 	envoice := models.EnvoiceInfo{Recived: true, RecordCreated: true, EnvoUUID: envUUID}
 
-	a.InfoLog.Println(envoice)
+	// a.InfoLog.Println(envoice)
 
 	err = utils.WriteJSON(w, http.StatusCreated, &envoice)
 
