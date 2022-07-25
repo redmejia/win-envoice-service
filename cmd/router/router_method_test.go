@@ -2,10 +2,8 @@ package router
 
 import (
 	"bytes"
-	"log"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 	"win/envoice/cmd/api"
 )
@@ -13,13 +11,6 @@ import (
 var app api.ApiConfig
 
 func TestRouterPost(t *testing.T) {
-	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	errLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime)
-
-	app.InfoLog = infoLog
-	app.ErrorLog = errLog
-
-	app.M = nil
 
 	fakeData := []byte(`"test": true`)
 
