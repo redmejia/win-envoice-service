@@ -19,11 +19,12 @@ func main() {
 	errLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime)
 
 	api := api.ApiConfig{
-		M:        mongodb.MongoDB{Mdb: client, InfoLog: infoLog, ErrorLog: errLog},
+		M:        &mongodb.MongoDB{Mdb: client, InfoLog: infoLog, ErrorLog: errLog},
 		InfoLog:  infoLog,
 		ErrorLog: errLog,
 	}
 
 	log.Println("http://localhost:8089")
 	log.Fatal(http.ListenAndServe(":8089", router.Router(&api)))
+
 }

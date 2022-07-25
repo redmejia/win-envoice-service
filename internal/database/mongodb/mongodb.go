@@ -3,8 +3,10 @@ package mongodb
 import (
 	"context"
 	"log"
+	"net/http"
 	"os"
 	"time"
+	"win/envoice/internal/models"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -19,6 +21,11 @@ const (
 type MongoDB struct {
 	Mdb               *mongo.Client
 	InfoLog, ErrorLog *log.Logger
+}
+
+type Envoicer interface {
+	CreateEnvoiceRecord(envObj models.TransactionData)
+	GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string)
 }
 
 func Connection() (*mongo.Client, error) {
