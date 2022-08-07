@@ -15,6 +15,7 @@ func TestMain(m *testing.M) {
 
 	app.M = newMockDatabase(infoLog, errLog)
 
+	// test this
 	app.InfoLog = infoLog
 	app.ErrorLog = errLog
 
