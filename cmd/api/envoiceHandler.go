@@ -79,3 +79,12 @@ func (a *ApiConfig) GetEnvoiceHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func (a *ApiConfig) GetAllHandler(w http.ResponseWriter, r *http.Request) {
+	// http://localhost:8089:/api/env/all?c_uid=23dsd23-ewwm-frew3
+	if r.Method == http.MethodGet {
+		companyUID := r.URL.Query().Get("c_uid")
+		a.M.GetAllByCompanyUid(w, companyUID)
+	}
+
+}

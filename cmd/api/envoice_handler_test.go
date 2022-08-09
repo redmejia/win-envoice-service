@@ -111,6 +111,7 @@ func (m *mockDatabase) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID strin
 	}
 
 }
+func (m *mockDatabase) GetAllByCompanyUid(w http.ResponseWriter, companyUID string) {}
 
 func TestGetEnvoiceHandlerSuccess(t *testing.T) {
 

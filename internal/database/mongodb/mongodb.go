@@ -26,6 +26,7 @@ type MongoDB struct {
 type Envoicer interface {
 	CreateEnvoiceRecord(envObj models.TransactionData)
 	GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string)
+	GetAllByCompanyUid(w http.ResponseWriter, companyUID string)
 }
 
 func Connection() (*mongo.Client, error) {

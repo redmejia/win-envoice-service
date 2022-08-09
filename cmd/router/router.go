@@ -11,6 +11,7 @@ func Router(a *api.ApiConfig) http.Handler {
 
 	mux.HandleFunc("/api/env", a.EnvoiceHandler)
 	mux.HandleFunc("/api/env/num", a.GetEnvoiceHandler)
+	mux.HandleFunc("/api/env/all", a.GetAllHandler)
 
 	return mux
 

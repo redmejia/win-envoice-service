@@ -61,3 +61,31 @@ func (m *MongoDB) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string) {
 		return
 	}
 }
+
+func (m *MongoDB) GetAllByCompanyUid(w http.ResponseWriter, companyUID string) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	envoiceColl := m.Mdb.Database(databaseName).Collection(envCollection)
+
+	// find all by company uid enter dot notation
+	cursor, err := envoiceColl.Find(ctx, bson.M{"transaction.company_uid": companyUID})
+	if err != nil {
+		m.ErrorLog.Fatal("error here ", err)
+	}
+
+	var result []bson.M
+
+	err = cursor.All(ctx, &result)
+	if err != nil {
+		m.ErrorLog.Fatal("error also here", err)
+	}
+
+	m.InfoLog.Println(result)
+
+	err = utils.WriteJSON(w, http.StatusFound, &result)
+	if err != nil {
+		m.ErrorLog.Fatal(err)
+	}
+
+}
