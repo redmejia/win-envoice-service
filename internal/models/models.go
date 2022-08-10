@@ -21,7 +21,7 @@ type BillingInfo struct {
 
 // Transaction
 type Transaction struct {
-	ComapanyUID  string               `bson:"company_uid,omitempty" json:"comapany_uid"`
+	CompanyUID   string               `bson:"company_uid,omitempty" json:"company_uid"`
 	Product      ProductSpecification `bson:"product,omitempty" json:"product"` // Business product specification
 	TxAmount     int                  `bson:"tx_amount,omitempty" json:"tx_amount"`
 	TxDate       string               `bson:"tx_date,omitempty" json:"tx_date"`
