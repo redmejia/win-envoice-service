@@ -55,7 +55,7 @@ func (m *MongoDB) GetEnvoiceByUUID(w http.ResponseWriter, envoiceUUID string) {
 		return
 	}
 
-	err = utils.WriteJSON(w, http.StatusOK, &env)
+	err = utils.WriteJSON(w, http.StatusFound, &env)
 	if err != nil {
 		m.ErrorLog.Fatal(err)
 		return
